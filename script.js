@@ -20,7 +20,7 @@ var clearButton = document.querySelector("#clearButton");
 var weatherUrl = '';
 var weatherUrlEx = 'https://api.openweathermap.org/data/2.5/onecall?lat=43.0748&lon=-89.3838&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 var geoUrl = '';
-var geoUrlex = 'http://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+var geoUrlex = 'https://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 
 
 var locationInput = $("#newCitySearchField");
@@ -57,7 +57,7 @@ function fetchWeather() {
     else {
         locationInputText = locationInputText.trim(); //remove trailing spaces
         locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
-        geoUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+        geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
         console.log(locationInputText + "~loc input text");
         console.log(geoUrl + " geoURL");
     }
@@ -132,7 +132,7 @@ function fetchPrevious() {
         locationInputText = locationInput.val();// get field value
         locationInputText = locationInputText.trim(); //remove trailing spaces
         locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
-        geoUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+        geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
         console.log(locationInputText + "~loc input text");
         console.log(geoUrl + " geoURL");
 
@@ -179,6 +179,9 @@ $("#submitButton").on('click', fetchWeather);
 $(".cityBtn").on('click', function fetchPrevious() {
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
     console.log(this.class);
+    console.log(this.value);
+    console.log(this.text);
+    console.log(this.cityName);
     fetchWeather();
 }   
 );
