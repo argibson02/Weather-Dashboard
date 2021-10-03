@@ -58,14 +58,18 @@
   </header>
   <main class="container-fluid d-flex custom-container">
     <section class="col-lg-2 col-md-12 d-flex flex-column align-items-center" id="cityBar">
-      <div class="row newCityRow form-group m-2">
+      <div class="row newCityRow form-group m-2" id="newCityRow">
         <input class="form-text form-control form-control-sm col-9 w-100" placeholder="Enter a new city here."
           name="newCity" id="newCitySearchField" type="text"></input>
         <button type="button col-3" class="btn btn-primary btn-sm" id="submitButton">Submit</button>
+         <div class="alert alert-danger" id="badNewCity" role="alert">
+          Something went wrong! Please check your spelling and try again. Reverting to default city.
+        </div>
+       </div>
       </div>
-      <button type="button" class="row btn btn-info m-1 mb-2 w-75">Fake City</button>
-      <button type="button" class="row btn btn-info m-1 mb-2 w-75">Fake City</button>
-      <button type="button" class="row btn btn-info m-1 mb-2 w-75">Fake City</button>
+      <button type="button" class="row btn btn-info m-1 mb-2 w-75 cityBtn">Fake City</button>
+      <button type="button" class="row btn btn-info m-1 mb-2 w-75 cityBtn">Fake City</button>
+      <button type="button" class="row btn btn-info m-1 mb-2 w-75 cityBtn">Fake City</button>
     </section>
 
     <section class="col-lg-10 col-md-12 d-flex align-items-center justify-content-center" id="fiveDay">
