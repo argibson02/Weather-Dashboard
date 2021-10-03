@@ -1,7 +1,8 @@
 * {
-    font-size: 16px;
+    font-size: 18px;
     margin: 0px;
     padding: 0px;
+    font-weight: 500;
 }
 
 header {
@@ -27,4 +28,81 @@ body {
 
 footer {
 
+}
+
+
+.custom-card-body {
+    padding-left: ;
+}
+
+.cardLine {
+    margin: 10px;
+}
+
+.uvBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 150px;
+    height: 50px;
+    border-radius: 5x;
+    text-align: center;
+    color:white;
+    padding: 20px;
+}
+
+.uvPurple {
+    background: purple;
+}
+
+.uvRed {
+    background: red;
+}
+
+.uvYellow{
+    background: gold;
+}
+
+.uvGreen {
+    background: green;
+}
+
+
+
+#fiveDay {
+    background-color: aquamarine;
+    background: aquamarine;
+    border: 3px solid magenta;
+}
+
+#cityBar {
+    background-color: darkkhaki;
+    background: darkkhaki;
+    border: 3px solid purple;
+    
+
+}
+
+.newCityRow {
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.todayCard {
+    background: cornflowerblue;
+}
+
+.fiveDayCard {
+    background: rgb(211, 135, 150);
+}
+
+
+@media screen and (max-width: 992px)
+{
+    .custom-container {
+        flex-direction: column;
+    }
 }
