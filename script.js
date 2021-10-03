@@ -1,30 +1,19 @@
 ///Variables
-var timeNow = moment();
 var cityArray = [];
-var localCheck = [];
-var localCheckVerify = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
-var notesInput = document.getElementById("initialsText");
 var geoLat = "";
 var geoLon = "";
 var dataGeoBadCheck = [];
 var newCityRow = $('newCityRow')
+
 //textarea variables
-var text00 = document.getElementById("text00");
+var locationInput = $("#newCitySearchField");
 
 //button variables
-var btn00 = document.querySelector("#btn00");
-
-
-var clearButton = document.querySelector("#clearButton");
+//var clearButton = document.querySelector("#clearButton");
 
 var weatherUrl = '';
 var weatherUrlEx = 'https://api.openweathermap.org/data/2.5/onecall?lat=43.0748&lon=-89.3838&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 var geoUrl = '';
-var geoUrlex = 'https://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-
-
-var locationInput = $("#newCitySearchField");
-
 
 
 ///----------------------------------------------------------------------CLOCK
@@ -34,6 +23,7 @@ let currentTimeClock = function () {
 };
 currentTimeClock();
 setInterval(currentTimeClock, 1000);
+
 
 ///---------------storing city functions----------------------------------------------
 function storeCity() {
@@ -45,12 +35,12 @@ function storeCity() {
 
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////= Fetches =////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------Fetching data from weather API
 function fetchWeather() {
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
 
-        locationInputText = locationInput.val();// get field value
+    locationInputText = locationInput.val();// get field value
     if (locationInputText === "") { // does nothing on empty strings
         return;
     }
@@ -68,9 +58,9 @@ function fetchWeather() {
         })
         .then(function (dataGeo) {
             console.log(dataGeo);
-            console.log(dataGeo.length + "dataGeoBadCheck")
+            console.log(dataGeo.length + "dataGeoBadCheck");
             dataGeoBadCheck = dataGeo;
-            console.log(dataGeoBadCheck.length)
+            console.log(dataGeoBadCheck.length);
             if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
                 $("#badNewCity").attr("style", "display:inherit");
                 console.log(weatherUrl);
@@ -115,27 +105,57 @@ function fetchWeather() {
                 //console.log(dataWeather.daily[i].weather[0].main); // i.e "clouds, sunny"
                 //console.log(dataWeather.daily[i].wind_speed);
                 //console.log(dataWeather.daily[i].uvi);
-
-
-
             }
             console.log(fiveDayObj);
         });
+    $("#newCitySearchField").val('');
 }
 
-//---------------------------------------------
+//---------------------------------------------Fetch previous city (skips store function)
 function fetchPrevious() {
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
-    
-    $
 
-        locationInputText = locationInput.val();// get field value
-        locationInputText = locationInputText.trim(); //remove trailing spaces
-        locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
-        geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-        console.log(locationInputText + "~loc input text");
-        console.log(geoUrl + " geoURL");
+    locationInputText = locationInput.val();// get field value
+    locationInputText = locationInputText.trim(); //remove trailing spaces
+    locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
+    geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+    console.log(locationInputText + "~loc input text");
+    console.log(geoUrl + " geoURL");
 
+    fetch(geoUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (dataGeo) {
+            dataGeoBadCheck = dataGeo;
+            if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
+                $("#badNewCity").attr("style", "display:inherit");
+                console.log(weatherUrl);
+                return fetch(weatherUrlEx); // handles bad result by feeding the fetch the default city
+            }
+            else {
+                geoLat = dataGeo[0].lat;
+                geoLon = dataGeo[0].lon;
+                weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+                console.log(weatherUrl);
+                return fetch(weatherUrl);
+            }
+        })
+
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (dataWeather) {
+            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi];
+            console.log(currentDayArr);
+
+            fiveDayObj = {};
+            for (i = 1; i < 6; i++) {
+                fiveDayObj[i] = [dataWeather.daily[i].humidity, dataWeather.daily[i].temp.day, moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"), dataWeather.daily[i].weather[0].main, dataWeather.daily[i].wind_speed, dataWeather.daily[i].uvi];
+            }
+            console.log(fiveDayObj);
+        });
+    $("#newCitySearchField").val('');
 }
 
 //----------------------------------------------fetch for default city
@@ -159,83 +179,16 @@ fetchDefault();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //--------------------------------------------------------------EVENT LISTENERS
 //------------------------------- Save buttons
 $("#submitButton").on('click', fetchWeather);
-$(".cityBtn").on('click', function fetchPrevious() {
-    $("#badNewCity").attr("style", "display:none"); // reset bad city alert
-    console.log(this.class);
-    console.log(this.value);
-    console.log(this.text);
-    console.log(this.cityName);
-    fetchWeather();
-}   
-);
-
-
-//console.log(cityArray);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////-----------------------------------------------------------------Fetching data from geo API
-//function fetchGeo() {
-//    fetch(geoUrlex)
-//        .then(function (response) {
-//            return response.json();
-//        })
-//        .then(function (dataGeo) {
-//            console.log(dataGeo);
-//            console.log(dataGeo[0].name);
-//            console.log(dataGeo[0].lat);
-//            console.log(dataGeo[0].lon);
-//        });
-//}
-//fetchGeo();
-//
-
-// 43°04′29″N 89°23′03″W   http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb
-// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=86369859ce9d4d2c8dd6eec9149bddeb   --- weather
-// http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid=86369859ce9d4d2c8dd6eec9149bddeb    --- geo
-
-
-
-
-
-
-
-
-
-
-
-
-
+$(".cityBtn").on("click", function () {
+    var cityName = $(this).attr("id");
+    console.log("test");
+    console.log(cityName);
+    $("#newCitySearchField").val(cityName);
+    fetchPrevious();
+});
 
 
 
