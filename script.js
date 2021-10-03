@@ -1,73 +1,98 @@
 ///Variables
 var timeNow = moment();
-var notesArray = ["","","","","","","","","","","","","","","","","","","","","","","",""];
+var notesArray = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 var localCheck = [];
-var localCheckVerify = ["","","","","","","","","","","","","","","","","","","","","","","",""];
+var localCheckVerify = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 var notesInput = document.getElementById("initialsText");
+var geoLat = "";
+var geoLon = "";
+
 
 //textarea variables
-//var text00 = $("#text00"); my jQuery ones don't work
 var text00 = document.getElementById("text00");
-var text01 = document.getElementById("text01");
-var text02 = document.getElementById("text02");
-var text03 = document.getElementById("text03");
-var text04 = document.getElementById("text04");
-var text05 = document.getElementById("text05");
-var text06 = document.getElementById("text06");
-var text07 = document.getElementById("text07");
-var text08 = document.getElementById("text08");
-var text09 = document.getElementById("text09");
-var text10 = document.getElementById("text10");
-var text11 = document.getElementById("text11");
-var text12 = document.getElementById("text12");
-var text13 = document.getElementById("text13");
-var text14 = document.getElementById("text14");
-var text15 = document.getElementById("text15");
-var text16 = document.getElementById("text16");
-var text17 = document.getElementById("text17");
-var text18 = document.getElementById("text18");
-var text19 = document.getElementById("text19");
-var text20 = document.getElementById("text20");
-var text21 = document.getElementById("text21");
-var text22 = document.getElementById("text22");
-var text23 = document.getElementById("text23");
 
 //button variables
 var btn00 = document.querySelector("#btn00");
-var btn01 = document.querySelector("#btn01");
-var btn02 = document.querySelector("#btn02");
-var btn03 = document.querySelector("#btn03");
-var btn04 = document.querySelector("#btn04");
-var btn05 = document.querySelector("#btn05");
-var btn06 = document.querySelector("#btn06");
-var btn07 = document.querySelector("#btn07");
-var btn08 = document.querySelector("#btn08");
-var btn09 = document.querySelector("#btn09");
-var btn10 = document.querySelector("#btn10");
-var btn11 = document.querySelector("#btn11");
-var btn12 = document.querySelector("#btn12");
-var btn13 = document.querySelector("#btn13");
-var btn14 = document.querySelector("#btn14");
-var btn15 = document.querySelector("#btn15");
-var btn16 = document.querySelector("#btn16");
-var btn17 = document.querySelector("#btn17");
-var btn18 = document.querySelector("#btn18");
-var btn19 = document.querySelector("#btn19");
-var btn20 = document.querySelector("#btn20");
-var btn21 = document.querySelector("#btn21");
-var btn22 = document.querySelector("#btn22");
-var btn23 = document.querySelector("#btn23");
+
 
 var clearButton = document.querySelector("#clearButton");
 
-//-----------------------------------------------------------------
-fetch('https://api.github.com/repos/nodejs/node/issues?per_page=5')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-  });
+var weatherTodayUrl = ''
+var weatherTodayUrlex = 'https://api.openweathermap.org/data/2.5/onecall?lat=43.0748&lon=-89.3838&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+var geoUrl = ''
+var geoUrlex = 'http://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+
+
+
+//-----------------------------------------------------------------Fetching data from weather API
+function fetchWeather() {
+    fetch(geoUrlex)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (dataGeo) {
+            console.log(dataGeo);
+            console.log(dataGeo[0].name);
+            console.log(dataGeo[0].lat);
+            console.log(dataGeo[0].lon);
+            var geoLat = dataGeo[0].lat;
+            var geoLon = dataGeo[0].lon;
+            console.log(geoLat + " la");
+            console.log(geoLon + " lo");
+
+            return fetch(weatherTodayUrlex);
+
+        })
+
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (dataWeather) {
+            console.log(dataWeather);
+            console.log(dataWeather.current);
+            console.log(dataWeather.current.humidity);
+            console.log(dataWeather.current.temp);
+            console.log(dataWeather.current.dt); //unix date
+            console.log(dataWeather.current.weather[0].main); // i.e "clouds, sunny"
+            console.log(dataWeather.current.wind_speed);
+            console.log(dataWeather.current.uvi);
+
+            var fiveDayObj = {};
+            for ( i = 1; i < 6; i++) {
+                fiveDayObj[i] = [dataWeather.daily[i].humidity, dataWeather.daily[i].temp.day, moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"), dataWeather.daily[i].weather[0].main, dataWeather.daily[i].wind_speed, dataWeather.daily[i].uvi];
+            //console.log(dataWeather.daily[i]);
+            //console.log(dataWeather.daily[i].humidity);
+            //console.log(dataWeather.daily[i].temp);
+            //console.log(dataWeather.daily[i].dt); //unix date
+            //console.log(dataWeather.daily[i].weather[0].main); // i.e "clouds, sunny"
+            //console.log(dataWeather.daily[i].wind_speed);
+            //console.log(dataWeather.daily[i].uvi);
+            }   
+            console.log(fiveDayObj);
+        });
+}
+fetchWeather();
+
+
+////-----------------------------------------------------------------Fetching data from geo API
+//function fetchGeo() {
+//    fetch(geoUrlex)
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (dataGeo) {
+//            console.log(dataGeo);
+//            console.log(dataGeo[0].name);
+//            console.log(dataGeo[0].lat);
+//            console.log(dataGeo[0].lon);
+//        });
+//}
+//fetchGeo();
+//
+
+// 43°04′29″N 89°23′03″W   http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb
+// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=86369859ce9d4d2c8dd6eec9149bddeb   --- weather
+// http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid=86369859ce9d4d2c8dd6eec9149bddeb    --- geo
 
 
 ///----------------------------------------------------------------------CLOCK
@@ -80,6 +105,96 @@ setInterval(currentTimeClock, 1000);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//function fetchWeather() {
+//    fetch(geoUrlex)
+//    .then(function (response) {
+//        return response.json();
+//    })
+//    .then(function (dataGeo) {
+//        console.log(dataGeo);
+//        console.log(dataGeo[0].name);
+//        console.log(dataGeo[0].lat);
+//        console.log(dataGeo[0].lon);
+//        
+//    });
+//    
+//    
+//    
+//        fetch(weatherTodayUrlex)
+//
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (dataWeather) {
+//            console.log(dataWeather);
+//            console.log(dataWeather.current);
+//            console.log(dataWeather.current.humidity);
+//            console.log(dataWeather.current.temp);
+//            console.log(dataWeather.current.dt); //unix date
+//            console.log(dataWeather.current.weather[0].main); // i.e "clouds, sunny"
+//            console.log(dataWeather.current.wind_speed);
+//            console.log(dataWeather.current.uvi);
+//            
+//            console.log(dataWeather);
+//            console.log(dataWeather.daily[0]);
+//            console.log(dataWeather.daily[0].humidity);
+//            console.log(dataWeather.daily[0].temp);
+//            console.log(dataWeather.daily[0].dt); //unix date
+//            console.log(dataWeather.daily[0].weather[0].main); // i.e "clouds, sunny"
+//            console.log(dataWeather.daily[0].wind_speed);
+//            console.log(dataWeather.daily[0].uvi);
+//            
+//        });
+//}
+//fetchWeather();
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //-----------------------------------------------------------------COLOR SWAPPING
 /*
 function colorSwap() {
@@ -87,7 +202,7 @@ function colorSwap() {
 }
 colorSwap();
 */
-
+/*
 function colorSwap() {
     let todayHours = moment().hour();
 
@@ -105,9 +220,9 @@ function colorSwap() {
     
 }
 colorSwap();
+*/
 
-
-
+/*
 //-------------------------------------------------------------------------STORAGE
 //--------------------Function for syncing notes with local
 function checkNotes() {
@@ -150,7 +265,8 @@ function checkNotes() {
     }
 }
 checkNotes(); //---runs immediately upon loading the page
-
+*/
+/*
 ///---------------storing notes functions
 function storeNotes00(event) {
     event.preventDefault();
@@ -161,6 +277,7 @@ function storeNotes00(event) {
 }
 "notesArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local;
 }
+*/
 
 /////-----------------------------------Clear notes function 
 //function clearNotes(event) {
@@ -170,10 +287,16 @@ function storeNotes00(event) {
 //    checkNotes(); // using the check notes function to clear values in note boxes 
 //}
 
+//-------------------------------------- Get Weather function 
+//function getWeather {
+
+//}
+
+
 
 //--------------------------------------------------------------EVENT LISTENERS
 //------------------------------- Save buttons
-$("#submitButton")
+//$("#submitButton").on('click', getWeather)
 
 //------------------------------- Clear button
 //clearButton.addEventListener("click", clearNotes);
