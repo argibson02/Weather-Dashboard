@@ -168,10 +168,11 @@ function fetchWeather() {
                         "uvi": dataWeather.daily[i].uvi,
                         "icon": dataWeather.daily[i].weather[0].icon,
                     };
-                writeCards();
+
             }
             //console.log(fiveDayObj);
             //console.log(cityArray);
+            writeCards();
             tempCity = $("#newCitySearchField").val();
             storeCity();
         });
@@ -197,6 +198,7 @@ function fetchPrevious() {
             if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
                 $("#badNewCity").attr("style", "display:inherit");
                 //console.log(weatherUrl);
+                headerName = "Madison, WI";
                 return fetch(weatherUrlEx); // handles bad result by feeding the fetch the default city
             }
             else {
@@ -229,9 +231,10 @@ function fetchPrevious() {
                         "wind": dataWeather.daily[i].wind_speed,
                         "uvi": dataWeather.daily[i].uvi,
                     };
-                writeCards();
+
             }
             //console.log(fiveDayObj);
+            writeCards();
         });
     $("#newCitySearchField").val('');
 }
