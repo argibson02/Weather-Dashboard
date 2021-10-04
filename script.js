@@ -1,9 +1,12 @@
 ///Variables
 var cityArray = [];
+var localStorageArray = [];
+var clearArray = [];
 var geoLat = "";
 var geoLon = "";
 var dataGeoBadCheck = [];
-var newCityRow = $('newCityRow')
+var newCityRow = $('newCityRow');
+var tempCity = "";
 
 //textarea variables
 var locationInput = $("#newCitySearchField");
@@ -27,12 +30,39 @@ setInterval(currentTimeClock, 1000);
 
 ///---------------storing city functions----------------------------------------------
 function storeCity() {
-    var locationText = locationInput.val();
-    cityArray.push(locationText);
+    //for (i = 0; i < cityArray.length; i++) { // checks for explicit duplicates
+    //    if (tempCity == cityArray[i]) {
+    //        $("#newCitySearchField").val('');
+    //        console.log("1 store");
+    //    }
+    //    else {
+    //    }
+    //}
+    //console.log("2 store");
+    //console.log(tempCity + " temp city storecity");
+    cityArray.push(tempCity);
     localStorage.setItem("cityArray", JSON.stringify(cityArray));  // syncing javascript array and local storage, add to local storage
     cityArray = JSON.parse(localStorage.getItem("cityArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local
+    $("#newCitySearchField").val('');
+
+
+
 }
 
+//------------------sync cities function-------------------------------
+function checkCities() {
+    if (localStorage.getItem("cityArray") === null) { // if the local storage array is null, we skip syncing.
+        return;
+    }
+    else {
+        localStorageArray = JSON.parse(localStorage.getItem("cityArray")); // if not null, make it var local check.
+    }
+    if (localStorageArray.length > cityArray.length) { // if local storage is not empty, we sync our javascript session array to local one.
+        cityArray = localStorageArray;
+        console.log(cityArray);
+    }
+}
+checkCities(); //--- syncing runs immediately upon loading the page
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////= Fetches =////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +70,7 @@ function storeCity() {
 function fetchWeather() {
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
 
-    locationInputText = locationInput.val();// get field value
+    locationInputText = locationInput.val(); // get field value
     if (locationInputText === "") { // does nothing on empty strings
         return;
     }
@@ -57,28 +87,26 @@ function fetchWeather() {
             return response.json();
         })
         .then(function (dataGeo) {
-            console.log(dataGeo);
-            console.log(dataGeo.length + "dataGeoBadCheck");
+            //console.log(dataGeo);
+            //console.log(dataGeo.length + "dataGeoBadCheck");
             dataGeoBadCheck = dataGeo;
-            console.log(dataGeoBadCheck.length);
+            //console.log(dataGeoBadCheck.length);
             if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
                 $("#badNewCity").attr("style", "display:inherit");
-                console.log(weatherUrl);
-                console.log("^^^^^^");
+                //console.log(weatherUrl);
+                //console.log("^^^^^^");
                 return fetch(weatherUrlEx); // handles bad result by feeding the fetch the default city
             }
             else {
-                storeCity();
                 geoLat = dataGeo[0].lat;
                 geoLon = dataGeo[0].lon;
-                console.log(geoLat + " la");
-                console.log(geoLon + " lo");
+                //console.log(geoLat + " la");
+                //console.log(geoLon + " lo");
                 weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-                console.log(weatherUrl);
+                //console.log(weatherUrl);
                 return fetch(weatherUrl);
             }
         })
-
 
         .then(function (response) {
             return response.json();
@@ -107,15 +135,17 @@ function fetchWeather() {
                 //console.log(dataWeather.daily[i].uvi);
             }
             console.log(fiveDayObj);
+            console.log(cityArray);
+            tempCity = $("#newCitySearchField").val();
+            storeCity();
         });
-    $("#newCitySearchField").val('');
 }
 
 //---------------------------------------------Fetch previous city (skips store function)
 function fetchPrevious() {
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
 
-    locationInputText = locationInput.val();// get field value
+    locationInputText = locationInput.val(); // get field value
     locationInputText = locationInputText.trim(); //remove trailing spaces
     locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
     geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
@@ -176,12 +206,19 @@ function fetchDefault() {
 fetchDefault();
 
 
+///-----------------------------------Clear notes function 
+function clearCities(event) {
+    event.preventDefault();
+    cityArray = clearArray; // sets javascript session array to blank
+    localStorage.setItem("cityArray", JSON.stringify(cityArray));  // pushes to local store
+    $("#newCitySearchField").val('');
 
-
+}
 
 //--------------------------------------------------------------EVENT LISTENERS
 //------------------------------- Save buttons
 $("#submitButton").on('click', fetchWeather);
+$("#clearButton").on('click', clearCities);
 $(".cityBtn").on("click", function () {
     var cityName = $(this).attr("id");
     console.log("test");
@@ -219,47 +256,4 @@ function colorSwap() {
 
 }
 colorSwap();
-
-//-------------------------------------------------------------------------STORAGE
-//--------------------Function for syncing notes with local
-function checkNotes() {
-    if (localStorage.getItem("notesArray") === null) { // if the local storage array is null, we skip syncing.
-        return;
-    }
-    else if (localStorage.getItem("notesArray") === "") { // if the local storage array is an empty string, we skip syncing.
-        return;
-    }
-    else {
-        localCheck = JSON.parse(localStorage.getItem("notesArray")); // if not null, make it var local check.
-    }
-
-    if (localCheck !== localCheckVerify) { // if local storage is not empty, we sync our javascript session array to local one.
-        notesArray = localCheck;
-        text00.value = notesArray[00];
-        text01.value = notesArray[01];
-        text02.value = notesArray[02];
-
-    }
-}
-checkNotes(); //---runs immediately upon loading the page
-
-
-///---------------storing notes functions
-function storeNotes00(event) {
-    event.preventDefault();
-    var notesHandOff = text00.value;
-    notesArray[0] = notesHandOff;
-    localStorage.setItem("notesArray", JSON.stringify(notesArray));  // syncing javascript array and local storage, add to local storage
-    notesArray = JSON.parse(localStorage.getItem("notesArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local
-}
-"notesArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local;
-}
 */
-
-/////-----------------------------------Clear notes function 
-//function clearNotes(event) {
-//    event.preventDefault();
-//    notesArray = localCheckVerify; // sets javascript session array to blank
-//    localStorage.setItem("notesArray", JSON.stringify(notesArray));  // pushes to local store
-//    checkNotes(); // using the check notes function to clear values in note boxes 
-//
