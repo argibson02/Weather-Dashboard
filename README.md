@@ -1,7 +1,7 @@
 # Weather Dashboard
 ## Description
 
-This weather dash allows you to find the forecast for any city without be bombarded with ads! You can also search previously entered locations with ease by pressing the recently searched buttons.
+This weather dash allows you to find a 5-day forecast for any city without being bombarded with ads! You can also search previously entered locations with ease by pressing on the recently searched buttons.
 
 [Click this link to forsee the weather!](https://argibson02.github.io/Weather-Dashboard/)
  <br />
