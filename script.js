@@ -44,7 +44,7 @@ function storeCity() {
     $("#newCitySearchField").val('');
 
     $("#newCityBtn").append("<button>" + rawCity + "</button>");
-    $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
+    $("#newCityBtn").children().attr("class", "row btn btn-light m-1 mb-2 w-100 cityBtn");
     $("#newCityBtn").children().last().attr("id", rawCity);
     console.log(cityArray);
 }
@@ -59,10 +59,10 @@ function checkCities() {
     }
     if (localStorageArray.length > cityArray.length) { // if local storage is not empty, we sync our javascript session array to local one.
         cityArray = localStorageArray;
-        console.log(cityArray);
+        //console.log(cityArray);
         for (i = 0; i < cityArray.length; i++) {
             $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
-            $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
+            $("#newCityBtn").children().attr("class", "row btn btn-light m-1 mb-2 w-100 cityBtn");
             $("#newCityBtn").children().last().attr("id", cityArray[i]); ///////////////////NO TOUCH
         }
     }
@@ -82,7 +82,6 @@ function writeCards() {
         var temp = fiveDayObj[i].temp;
         $("#temp" + i).html(temp);
         var icon = "http://openweathermap.org/img/wn/" + fiveDayObj[i].icon + "@2x.png";
-        console.log(icon);
         $("#icon" + i).attr("src", icon);
         var humidity = fiveDayObj[i].humidity;
         $("#humidity" + i).html(humidity);
@@ -171,8 +170,8 @@ function fetchWeather() {
                     };
                 writeCards();
             }
-            console.log(fiveDayObj);
-            console.log(cityArray);
+            //console.log(fiveDayObj);
+            //console.log(cityArray);
             tempCity = $("#newCitySearchField").val();
             storeCity();
         });

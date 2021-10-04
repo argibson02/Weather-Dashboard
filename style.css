@@ -5,8 +5,16 @@
     font-weight: 500;
 }
 
+.custom-jumbotron {
+    background: linear-gradient(cornflowerblue 20%, white);
+}
+
 #cityHeader {
     font-size: 34px;
+}
+
+.card-header {
+    text-align: center;
 }
 
 .cardLine {
@@ -32,6 +40,15 @@
     flex-direction: column;
 }
 
+.fiveDayCard {
+    border-radius: 10px;
+    border: 1px solid black;
+    background: rgb(184, 172, 174);
+}
+
+.custom-container {
+background: indigo;
+}
 .uvPurple {
     background: purple;
 }
@@ -57,15 +74,20 @@
 }
 
 #fiveDay {
-    background-color: aquamarine;
-    background: aquamarine;
-    border: 3px solid magenta;
+    background: linear-gradient(#7B4E96 10%, #C59C90);
 }
 
 #cityBar {
-    background-color: darkkhaki;
-    background: darkkhaki;
-    border: 3px solid purple;
+    background: rgb(148, 125, 179);
+
+}
+
+.btn {
+    box-shadow:  1px 1px 2px black;
+}
+
+.cityBtn:hover {
+    background: #d4d4d4;
 }
 
 .newCityRow {
@@ -83,9 +105,6 @@
     background: cornflowerblue;
 }
 
-.fiveDayCard {
-    background: rgb(211, 135, 150);
-}
 
 
 @media screen and (max-width: 992px)
