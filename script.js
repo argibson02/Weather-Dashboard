@@ -45,8 +45,10 @@ function storeCity() {
     cityArray = JSON.parse(localStorage.getItem("cityArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local
     $("#newCitySearchField").val('');
 
-
-
+    var addBtn = $("#newCityBtn").append("<button>" + rawCity + "</button>");
+    $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
+    $("#newCityBtn").children().last().attr("id", rawCity);
+    console.log(cityArray);
 }
 
 //------------------sync cities function-------------------------------
@@ -60,7 +62,17 @@ function checkCities() {
     if (localStorageArray.length > cityArray.length) { // if local storage is not empty, we sync our javascript session array to local one.
         cityArray = localStorageArray;
         console.log(cityArray);
+        for (i = 0; i < cityArray.length; i++) {
+            var addBtn = $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
+            $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
+            $("#newCityBtn").children().last().attr("id", cityArray[i]);
+            //addBtn.attr("id", cityArray[i]);
+            //console.log($("#newCityBtn").eq([i]));
+            //$("#newCityBtn").eq([i]).attr("class", "row btn btn-info m-1 mb-2 w-75 cityBt");
+            //$("#newCityBtn").eq([i]).attr(;
+        }
     }
+
 }
 checkCities(); //--- syncing runs immediately upon loading the page
 
@@ -75,6 +87,7 @@ function fetchWeather() {
         return;
     }
     else {
+        rawCity = locationInputText;
         locationInputText = locationInputText.trim(); //remove trailing spaces
         locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
         geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
@@ -212,6 +225,7 @@ function clearCities(event) {
     cityArray = clearArray; // sets javascript session array to blank
     localStorage.setItem("cityArray", JSON.stringify(cityArray));  // pushes to local store
     $("#newCitySearchField").val('');
+    $("#newCityBtn").empty();
 
 }
 
@@ -220,6 +234,7 @@ function clearCities(event) {
 $("#submitButton").on('click', fetchWeather);
 $("#clearButton").on('click', clearCities);
 $(".cityBtn").on("click", function () {
+    console.log($(this).attr("id"));
     var cityName = $(this).attr("id");
     console.log("test");
     console.log(cityName);
@@ -240,17 +255,17 @@ function colorSwap() {
 colorSwap();
 
 function colorSwap() {
-    let todayHours = moment().hour();
+    for (i = 0; i < 5; i++) {
+        var uvi = $(".")
 
-    function compareTime00() {
         if (todayHours > text00Hour) {
-            text00.setAttribute("class", "past col-8 input-field description");
+            text00.setAttribute("class", "uvBox uvPurple cardLine");
         }
         else if (todayHours < text00Hour) {
-            text00.setAttribute("class", "future col-8 input-field description");
+            text00.setAttribute("class", "fuvBox uvPurple cardLine");
         }
         else {
-            text00.setAttribute("class", "present col-8 input-field description");
+            text00.setAttribute("class", "uvBox uvPurple cardLine");
         }
     }
 
