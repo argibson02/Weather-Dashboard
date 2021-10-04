@@ -7,6 +7,7 @@ var geoLon = "";
 var dataGeoBadCheck = [];
 var newCityRow = $('newCityRow');
 var tempCity = "";
+//var fiveDayObj = {};
 
 //textarea variables
 var locationInput = $("#newCitySearchField");
@@ -63,7 +64,7 @@ function checkCities() {
         cityArray = localStorageArray;
         console.log(cityArray);
         for (i = 0; i < cityArray.length; i++) {
-            var addBtn = $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
+            $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
             $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
             $("#newCityBtn").children().last().attr("id", cityArray[i]);
             //addBtn.attr("id", cityArray[i]);
@@ -75,6 +76,38 @@ function checkCities() {
 
 }
 checkCities(); //--- syncing runs immediately upon loading the page
+
+
+function generateIcon() {
+
+}
+
+
+
+function generateCards() {
+
+    for (i = 1; i < 6; i++) {
+        $("#cardHolder").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
+        $("#cardHolder").children().last().attr("id", rawCity);
+
+
+
+
+
+        //fiveDayObj[i].humidity
+        //fiveDayObj[i].temp
+        //fiveDayObj[i].date
+        //fiveDayObj[i].weather
+        //fiveDayObj[i].wind
+        //fiveDayObj[i].uvi
+
+
+
+
+    }
+
+}
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////= Fetches =////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,14 +133,9 @@ function fetchWeather() {
             return response.json();
         })
         .then(function (dataGeo) {
-            //console.log(dataGeo);
-            //console.log(dataGeo.length + "dataGeoBadCheck");
             dataGeoBadCheck = dataGeo;
-            //console.log(dataGeoBadCheck.length);
             if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
                 $("#badNewCity").attr("style", "display:inherit");
-                //console.log(weatherUrl);
-                //console.log("^^^^^^");
                 return fetch(weatherUrlEx); // handles bad result by feeding the fetch the default city
             }
             else {
@@ -126,26 +154,21 @@ function fetchWeather() {
         })
         .then(function (dataWeather) {
             //console.log(dataWeather);
-            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi];
-            //console.log(dataWeather.current);
-            //console.log(dataWeather.current.humidity);
-            //console.log(dataWeather.current.temp);
-            //console.log(dataWeather.current.dt); //unix date
-            //console.log(dataWeather.current.weather[0].main); // i.e "clouds, sunny"
-            //console.log(dataWeather.current.wind_speed);
-            //console.log(dataWeather.current.uvi);
+            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi,dataWeather.current.weather[0].icon];
             console.log(currentDayArr);
 
-            fiveDayObj = {};
             for (i = 1; i < 6; i++) {
-                fiveDayObj[i] = [dataWeather.daily[i].humidity, dataWeather.daily[i].temp.day, moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"), dataWeather.daily[i].weather[0].main, dataWeather.daily[i].wind_speed, dataWeather.daily[i].uvi];
-                //console.log(dataWeather.daily[i]);
-                //console.log(dataWeather.daily[i].humidity);
-                //console.log(dataWeather.daily[i].temp);
-                //console.log(dataWeather.daily[i].dt); //unix date
-                //console.log(dataWeather.daily[i].weather[0].main); // i.e "clouds, sunny"
-                //console.log(dataWeather.daily[i].wind_speed);
-                //console.log(dataWeather.daily[i].uvi);
+                fiveDayObj[i] = 
+                    {
+                        "humidity": dataWeather.daily[i].humidity,
+                        "temp": dataWeather.daily[i].temp.day,
+                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                        "weather": dataWeather.daily[i].weather[0].main,
+                        "wind": dataWeather.daily[i].wind_speed,
+                        "uvi": dataWeather.daily[i].uvi,
+                        "icon": dataWeather.daily[i].weather[0].icon,
+                    }
+                //generateCards();
             }
             console.log(fiveDayObj);
             console.log(cityArray);
@@ -189,12 +212,21 @@ function fetchPrevious() {
             return response.json();
         })
         .then(function (dataWeather) {
-            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi];
+            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi,dataWeather.current.weather[0].icon];
             console.log(currentDayArr);
 
-            fiveDayObj = {};
             for (i = 1; i < 6; i++) {
-                fiveDayObj[i] = [dataWeather.daily[i].humidity, dataWeather.daily[i].temp.day, moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"), dataWeather.daily[i].weather[0].main, dataWeather.daily[i].wind_speed, dataWeather.daily[i].uvi];
+                fiveDayObj[i] = 
+                    {
+                        "humidity": dataWeather.daily[i].humidity,
+                        "temp": dataWeather.daily[i].temp.day,
+                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                        "weather": dataWeather.daily[i].weather[0].main,
+                        "wind": dataWeather.daily[i].wind_speed,
+                        "uvi": dataWeather.daily[i].uvi,
+                        "icon": dataWeather.daily[i].weather[0].icon,
+                    }
+                //generateCards();
             }
             console.log(fiveDayObj);
         });
@@ -208,12 +240,22 @@ function fetchDefault() {
             return response.json();
         })
         .then(function (dataWeather) {
-            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi];
-
-            fiveDayObj = {};
+            currentDayArr = [dataWeather.current.humidity, dataWeather.current.temp, moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.wind_speed, dataWeather.current.uvi,dataWeather.current.weather[0].icon];
+            
             for (i = 1; i < 6; i++) {
-                fiveDayObj[i] = [dataWeather.daily[i].humidity, dataWeather.daily[i].temp.day, moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"), dataWeather.daily[i].weather[0].main, dataWeather.daily[i].wind_speed, dataWeather.daily[i].uvi];
+                fiveDayObj[i] = 
+                    {
+                        "humidity": dataWeather.daily[i].humidity,
+                        "temp": dataWeather.daily[i].temp.day,
+                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                        "weather": dataWeather.daily[i].weather[0].main,
+                        "wind": dataWeather.daily[i].wind_speed,
+                        "uvi": dataWeather.daily[i].uvi,
+                        "icon": dataWeather.daily[i].weather[0].icon,
+                    }
+                //generateCards();
             }
+            console.log(fiveDayObj);
         });
 }
 fetchDefault();
