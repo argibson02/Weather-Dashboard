@@ -30,7 +30,9 @@ footer {
 
 }
 
-
+#cityHeader {
+    font-size: 34px;
+}
 
 .cardLine {
     margin: 10px;
@@ -46,6 +48,13 @@ footer {
     border-radius: 5x;
     text-align: center;
     color:white;
+}
+
+.custom-card-body {
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .uvPurple {
@@ -83,15 +92,12 @@ footer {
     background-color: darkkhaki;
     background: darkkhaki;
     border: 3px solid purple;
-    
-
 }
 
 .newCityRow {
     width: 80%;
     align-items: center;
     justify-content: center;
-
 }
 
 #badNewCity {
