@@ -23,7 +23,7 @@ var locationInput = $("#newCitySearchField");
 var weatherUrl = '';
 var weatherUrlEx = 'https://api.openweathermap.org/data/2.5/onecall?lat=43.0748&lon=-89.3838&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 var geoUrl = '';
-var geoUrlEx = 'http://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb';
+var geoUrlEx = 'https://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 
 
 

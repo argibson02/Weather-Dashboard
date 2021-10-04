@@ -1,28 +1,16 @@
-# Title!
-
+# Weather Dashboard
 ## Description
 
-Have you ever thought, “Gee wiz, I sure wish there was a way to track, plan, and schedule my daily activities. If only someone could invent something to do that.”? **FINALLY** the solution is here! With this Day Planner web application you can do exactly that!
+This weather dash allows you to find the forecast for any city without be bombarded with ads! You can also search previously entered locations with ease by pressing the recently searched buttons.
+
+[Click this link to forsee the weather!](https://argibson02.github.io/Weather-Dashboard/)
  <br />
 
-What to learn how to surf? **Plan it!**
- <br />
+**Demo of the weather dashboard in action!**
 
-What to schedule a block of time to cry because you found out you're afraid of the ocean? **Plan it!**
- <br />
-
-What to figure out when you're available to sell your surfboard on eBay? **Plan it!**
+![Demo of the weather dashboard in action](https://github.com/argibson02/Quiz-App/blob/main/images/demo-weather.gif?raw=true)
 
 
-[Click this link to PLAN IT!](https://argibson02.github.io/Day-Planner/)
- <br />
-
-**Demo of the planner in action!**
-
-![Demo of the planner in action](https://github.com/argibson02/Quiz-App/blob/main/images/demo-planner.gif?raw=true)
-
-
-*(Homework project #5 for the UC Berkeley Full-Stack Developer Bootcamp)*
 
 ## Prerequisites
 Any modern internet browser will do!
@@ -34,6 +22,7 @@ Any modern internet browser will do!
 * [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 * [jQuery](https://api.jquery.com/)
 * [Bootstrap](https://getbootstrap.com/)
+* [OpenWeather APIs](https://openweathermap.org/api) 
 
 
 ## Technologies Used
@@ -53,7 +42,7 @@ Any modern internet browser will do!
 
 ## Deployed Link
 
-* [See the Live Site!](https://argibson02.github.io/Quiz-App/)
+* [See the Live Site!](https://argibson02.github.io/Weather-Dashboard/)
 
 ## Authors
 
@@ -67,5 +56,3 @@ Any modern internet browser will do!
 
 - Thanks to Jerome, Manuel, Cheng, and Daniel for instructing the UCB Coding Bootcamp.
 - Thanks to Eric Meyer for the [CSS reset file](https://meyerweb.com/eric/tools/css/reset/).
-
-
