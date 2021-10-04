@@ -47,7 +47,9 @@
 }
 
 .custom-container {
-background: indigo;
+    background: indigo;
+    border: 5px solid indigo;
+
 }
 .uvPurple {
     background: purple;

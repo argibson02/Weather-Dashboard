@@ -135,7 +135,7 @@ function fetchWeather() {
             else {
                 geoLat = dataGeo[0].lat;
                 geoLon = dataGeo[0].lon;
-                headerName = dataGeo[0].name + " ," + dataGeo[0].state;
+                headerName = dataGeo[0].name + ", " + dataGeo[0].state;
                 weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
                 return fetch(weatherUrl);
             }
@@ -187,7 +187,7 @@ function fetchPrevious() {
             else {
                 geoLat = dataGeo[0].lat;
                 geoLon = dataGeo[0].lon;
-                headerName = dataGeo[0].name + " ," + dataGeo[0].state;
+                headerName = dataGeo[0].name + ", " + dataGeo[0].state;
                 weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
                 return fetch(weatherUrl);
             }
@@ -223,7 +223,7 @@ function fetchDefault() {
             return response.json();
         })
         .then(function (dataGeo) {
-            headerName = dataGeo[0].name + " ," + dataGeo[0].state;
+            headerName = dataGeo[0].name + ", " + dataGeo[0].state;
             return fetch(weatherUrlEx);
         })
         .then(function (response) {
