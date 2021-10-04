@@ -44,6 +44,7 @@ function storeCity() {
     $("#newCityBtn").append("<button>" + rawCity + "</button>");
     $("#newCityBtn").children().attr("class", "row btn btn-light m-1 mb-2 w-100 cityBtn");
     $("#newCityBtn").children().last().attr("id", rawCity);
+    location.reload(); // not the best solution, but it works...
 }
 
 //------------------sync cities function-------------------------------
@@ -262,11 +263,8 @@ function clearCities(event) {
 //-------------------------------------------------------------- BUTTON EVENT LISTENERS
 $("#submitButton").on('click', fetchWeather);
 $("#clearButton").on('click', clearCities);
-$(".cityBtn").on("click", function () { // there seems to be a bug with buttons that are created during the same session. Might be a jQuery quirk on click listeners. Refreshing allows you to use the buttons.
-    //console.log($(this).attr("id"));
+$(".cityBtn").on("click", function () { // there seems to be a bug with buttons that are created during the same session. Might be jQuery needing to be run again on the page? Refreshing allows you to use the buttons. Solved with a page refresh on line 47, but a better solution is needed.
     var cityName = $(this).attr("id");
-    //console.log("test");
-    //console.log(cityName);
     $("#newCitySearchField").val(cityName);
     fetchPrevious();
 });
