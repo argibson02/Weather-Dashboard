@@ -26,7 +26,6 @@ var geoUrl = '';
 var geoUrlEx = 'https://api.openweathermap.org/geo/1.0/direct?q=madison,wi,usa&limit=5&appid=86369859ce9d4d2c8dd6eec9149bddeb';
 
 
-
 ///----------------------------------------------------------------------CLOCK
 let currentTimeClock = function () {
     let currentTime = moment().format("dddd, MMM Do, YYYY  |  kk:mm:ss");
@@ -34,7 +33,6 @@ let currentTimeClock = function () {
 };
 currentTimeClock();
 setInterval(currentTimeClock, 1000);
-
 
 ///---------------storing city functions----------------------------------------------
 function storeCity() {
@@ -46,7 +44,6 @@ function storeCity() {
     $("#newCityBtn").append("<button>" + rawCity + "</button>");
     $("#newCityBtn").children().attr("class", "row btn btn-light m-1 mb-2 w-100 cityBtn");
     $("#newCityBtn").children().last().attr("id", rawCity);
-    console.log(cityArray);
 }
 
 //------------------sync cities function-------------------------------
@@ -59,11 +56,10 @@ function checkCities() {
     }
     if (localStorageArray.length > cityArray.length) { // if local storage is not empty, we sync our javascript session array to local one.
         cityArray = localStorageArray;
-        //console.log(cityArray);
         for (i = 0; i < cityArray.length; i++) {
             $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
             $("#newCityBtn").children().attr("class", "row btn btn-light m-1 mb-2 w-100 cityBtn");
-            $("#newCityBtn").children().last().attr("id", cityArray[i]); ///////////////////NO TOUCH
+            $("#newCityBtn").children().last().attr("id", cityArray[i]);
         }
     }
 }
@@ -104,7 +100,7 @@ function writeCards() {
         }
         else if (uvi >= 0) {
             $("#uvi" + i).parent().addClass("uvGreen");
-        } 
+        }
     }
     return;
 }
@@ -124,8 +120,6 @@ function fetchWeather() {
         locationInputText = locationInputText.trim(); //remove trailing spaces
         locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
         geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-        //console.log(locationInputText + "~loc input text");
-        //console.log(geoUrl + " geoURL");
     }
 
     fetch(geoUrl)
@@ -141,11 +135,8 @@ function fetchWeather() {
             else {
                 geoLat = dataGeo[0].lat;
                 geoLon = dataGeo[0].lon;
-                //console.log(dataGeo[0]);
                 headerName = dataGeo[0].name + " ," + dataGeo[0].state;
-                //console.log(headerName);
                 weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-                //console.log(weatherUrl);
                 return fetch(weatherUrl);
             }
         })
@@ -154,24 +145,19 @@ function fetchWeather() {
             return response.json();
         })
         .then(function (dataWeather) {
-            //console.log(dataWeather);
             //currentDayArr = [moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.weather[0].icon, dataWeather.current.temp,dataWeather.current.humidity, dataWeather.current.wind_speed, dataWeather.current.uvi];
-            //console.log(currentDayArr);
             for (i = 0; i < 6; i++) {
-                fiveDayObj[i] = 
-                    {
-                        "humidity": dataWeather.daily[i].humidity,
-                        "temp": dataWeather.daily[i].temp.day,
-                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
-                        "weather": dataWeather.daily[i].weather[0].main,
-                        "wind": dataWeather.daily[i].wind_speed,
-                        "uvi": dataWeather.daily[i].uvi,
-                        "icon": dataWeather.daily[i].weather[0].icon,
-                    };
-
+                fiveDayObj[i] =
+                {
+                    "humidity": dataWeather.daily[i].humidity,
+                    "temp": dataWeather.daily[i].temp.day,
+                    "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                    "weather": dataWeather.daily[i].weather[0].main,
+                    "wind": dataWeather.daily[i].wind_speed,
+                    "uvi": dataWeather.daily[i].uvi,
+                    "icon": dataWeather.daily[i].weather[0].icon,
+                };
             }
-            //console.log(fiveDayObj);
-            //console.log(cityArray);
             writeCards();
             tempCity = $("#newCitySearchField").val();
             storeCity();
@@ -186,8 +172,6 @@ function fetchPrevious() {
     locationInputText = locationInputText.trim(); //remove trailing spaces
     locationInputText = locationInputText.split(" ").join(""); //remove spaces between words
     geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationInputText + '&limit=1&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-    //console.log(locationInputText + "~loc input text");
-    //console.log(geoUrl + " geoURL");
 
     fetch(geoUrl)
         .then(function (response) {
@@ -197,18 +181,14 @@ function fetchPrevious() {
             dataGeoBadCheck = dataGeo;
             if (dataGeoBadCheck.length === 0) { // displays alerts if there is a bad city
                 $("#badNewCity").attr("style", "display:inherit");
-                //console.log(weatherUrl);
                 headerName = "Madison, WI";
                 return fetch(weatherUrlEx); // handles bad result by feeding the fetch the default city
             }
             else {
                 geoLat = dataGeo[0].lat;
                 geoLon = dataGeo[0].lon;
-                console.log(dataGeo[0]);
                 headerName = dataGeo[0].name + " ," + dataGeo[0].state;
-                console.log(headerName);
                 weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + geoLat + '&lon=' + geoLon + '&units=metric&appid=86369859ce9d4d2c8dd6eec9149bddeb';
-                //console.log(weatherUrl);
                 return fetch(weatherUrl);
             }
         })
@@ -218,22 +198,18 @@ function fetchPrevious() {
         })
         .then(function (dataWeather) {
             //currentDayArr = [moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.weather[0].icon, dataWeather.current.temp,dataWeather.current.humidity, dataWeather.current.wind_speed, dataWeather.current.uvi];
-                //console.log(currentDayArr);
-
             for (i = 0; i < 6; i++) {
-                fiveDayObj[i] = 
-                    {
-                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
-                        "weather": dataWeather.daily[i].weather[0].main,
-                        "icon": dataWeather.daily[i].weather[0].icon,
-                        "temp": dataWeather.daily[i].temp.day,
-                        "humidity": dataWeather.daily[i].humidity,
-                        "wind": dataWeather.daily[i].wind_speed,
-                        "uvi": dataWeather.daily[i].uvi,
-                    };
-
+                fiveDayObj[i] =
+                {
+                    "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                    "weather": dataWeather.daily[i].weather[0].main,
+                    "icon": dataWeather.daily[i].weather[0].icon,
+                    "temp": dataWeather.daily[i].temp.day,
+                    "humidity": dataWeather.daily[i].humidity,
+                    "wind": dataWeather.daily[i].wind_speed,
+                    "uvi": dataWeather.daily[i].uvi,
+                };
             }
-            //console.log(fiveDayObj);
             writeCards();
         });
     $("#newCitySearchField").val('');
@@ -247,29 +223,26 @@ function fetchDefault() {
             return response.json();
         })
         .then(function (dataGeo) {
-                headerName = dataGeo[0].name + " ," + dataGeo[0].state;
-                return fetch(weatherUrlEx);
+            headerName = dataGeo[0].name + " ," + dataGeo[0].state;
+            return fetch(weatherUrlEx);
         })
         .then(function (response) {
             return response.json();
         })
         .then(function (dataWeather) {
-            //console.log(dataWeather);
             //currentDayArr = [moment.unix(dataWeather.current.dt).format("dddd, MMM Do, YYYY"), dataWeather.current.weather[0].main, dataWeather.current.weather[0].icon, dataWeather.current.temp,dataWeather.current.humidity, dataWeather.current.wind_speed, dataWeather.current.uvi];
-            //console.log(currentDayArr);
             for (i = 0; i < 6; i++) {
-                fiveDayObj[i] = 
-                    {
-                        "humidity": dataWeather.daily[i].humidity,
-                        "temp": dataWeather.daily[i].temp.day,
-                        "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
-                        "weather": dataWeather.daily[i].weather[0].main,
-                        "wind": dataWeather.daily[i].wind_speed,
-                        "uvi": dataWeather.daily[i].uvi,
-                        "icon": dataWeather.daily[i].weather[0].icon,
-                    };
+                fiveDayObj[i] =
+                {
+                    "humidity": dataWeather.daily[i].humidity,
+                    "temp": dataWeather.daily[i].temp.day,
+                    "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
+                    "weather": dataWeather.daily[i].weather[0].main,
+                    "wind": dataWeather.daily[i].wind_speed,
+                    "uvi": dataWeather.daily[i].uvi,
+                    "icon": dataWeather.daily[i].weather[0].icon,
+                };
             }
-            //console.log(fiveDayObj);
             writeCards();
         });
 }
@@ -289,7 +262,7 @@ function clearCities(event) {
 //-------------------------------------------------------------- BUTTON EVENT LISTENERS
 $("#submitButton").on('click', fetchWeather);
 $("#clearButton").on('click', clearCities);
-$(".cityBtn").on("click", function () { // there seems to be a bug with buttons that are created in the same session. Might be a jQuery quirk. Refreshing allows you to use the buttons.
+$(".cityBtn").on("click", function () { // there seems to be a bug with buttons that are created during the same session. Might be a jQuery quirk on click listeners. Refreshing allows you to use the buttons.
     //console.log($(this).attr("id"));
     var cityName = $(this).attr("id");
     //console.log("test");
