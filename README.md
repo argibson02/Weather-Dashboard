@@ -8,7 +8,7 @@ This weather dash allows you to find a 5-day forecast for any city without being
 
 **Demo of the weather dashboard in action!**
 
-![Demo of the weather dashboard in action](https://github.com/argibson02/Quiz-App/blob/main/images/demo-weather.gif?raw=true)
+![Demo of the weather dashboard in action](https://github.com/argibson02/Weather-Dashboard/blob/main/images/demo-weather.gif?raw=true)
 
 
 
