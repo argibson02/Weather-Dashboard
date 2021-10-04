@@ -287,7 +287,7 @@ function clearCities(event) {
 //-------------------------------------------------------------- BUTTON EVENT LISTENERS
 $("#submitButton").on('click', fetchWeather);
 $("#clearButton").on('click', clearCities);
-$(".cityBtn").on("click", function () {
+$(".cityBtn").on("click", function () { // there seems to be a bug with buttons that are created in the same session. Might be a jQuery quirk. Refreshing allows you to use the buttons.
     //console.log($(this).attr("id"));
     var cityName = $(this).attr("id");
     //console.log("test");

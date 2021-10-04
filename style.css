@@ -5,31 +5,6 @@
     font-weight: 500;
 }
 
-header {
-
-}
-
-nav {
-    text-decoration: none;
-}
-
-ul {
-    list-style-type: none;
-}
-
-
-li {
-
-}
-
-body {
-
-}
-
-footer {
-
-}
-
 #cityHeader {
     font-size: 34px;
 }
@@ -81,7 +56,6 @@ footer {
     padding: 5px;
 }
 
-
 #fiveDay {
     background-color: aquamarine;
     background: aquamarine;
@@ -104,7 +78,6 @@ footer {
     display:  none;
     font-size: 16px;
 }
-
 
 .todayCard {
     background: cornflowerblue;
