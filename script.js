@@ -7,7 +7,7 @@ var geoLon = "";
 var dataGeoBadCheck = [];
 var newCityRow = $('newCityRow');
 var tempCity = "";
-//var fiveDayObj = {};
+var fiveDayObj = {};
 
 //textarea variables
 var locationInput = $("#newCitySearchField");
@@ -46,7 +46,7 @@ function storeCity() {
     cityArray = JSON.parse(localStorage.getItem("cityArray")); //Array is stored as string in local storage. Grabbing it as an array and re-syncing the javascript array with local
     $("#newCitySearchField").val('');
 
-    var addBtn = $("#newCityBtn").append("<button>" + rawCity + "</button>");
+    $("#newCityBtn").append("<button>" + rawCity + "</button>");
     $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
     $("#newCityBtn").children().last().attr("id", rawCity);
     console.log(cityArray);
@@ -66,7 +66,8 @@ function checkCities() {
         for (i = 0; i < cityArray.length; i++) {
             $("#newCityBtn").append("<button>" + cityArray[i] + "</button>");
             $("#newCityBtn").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
-            $("#newCityBtn").children().last().attr("id", cityArray[i]);
+            $("#newCityBtn").children().last().attr("id", cityArray[i]); ///////////////////NO TOUCH
+            
             //addBtn.attr("id", cityArray[i]);
             //console.log($("#newCityBtn").eq([i]));
             //$("#newCityBtn").eq([i]).attr("class", "row btn btn-info m-1 mb-2 w-75 cityBt");
@@ -84,26 +85,44 @@ function generateIcon() {
 
 
 
-function generateCards() {
+function writeCards() {
+
+    
 
     for (i = 1; i < 6; i++) {
-        $("#cardHolder").children().attr("class", "row btn btn-info m-1 mb-2 w-100 cityBtn");
-        $("#cardHolder").children().last().attr("id", rawCity);
+        var date = fiveDayObj[i].date;
+        $("#date" + i).html(date);
+        var weather = fiveDayObj[i].weather;
+        $("#weather" + i).html(weather);
+        var temp = fiveDayObj[i].temp;
+        $("#temp" + i).html(temp);
+        var icon = fiveDayObj[i].icon;
+        $("#icon" + i).html(icon);
+        var humidity = fiveDayObj[i].humidity;
+        $("#humidity" + i).html(humidity);
+        var wind = fiveDayObj[i].wind;
+        $("#wind" + i).html(wind);
+        var uvi = fiveDayObj[i].uvi;
+        $("#uvi" + i).html(uvi);
+        console.log("#humidity" + i);
+        console.log(humidity);
 
-
-
-
-
-        //fiveDayObj[i].humidity
-        //fiveDayObj[i].temp
-        //fiveDayObj[i].date
-        //fiveDayObj[i].weather
-        //fiveDayObj[i].wind
-        //fiveDayObj[i].uvi
-
-
-
-
+        if (uvi > 10) {
+            $("#uvi" + i).parent().addClass("uvPurple");
+        }
+        else if (uvi >= 8) {
+            $("#uvi" + i).parent().addClass("uvRed");
+        }
+        else if (uvi >= 6) {
+            $("#uvi" + i).parent().addClass("uvOrange");
+        }
+        else if (uvi >= 3) {
+            $("#uvi" + i).parent().addClass("uvYellow");
+        }
+        else if (uvi >= 0) {
+            $("#uvi" + i).parent().addClass("uvGreen");
+        }
+        
     }
 
 }
@@ -168,7 +187,7 @@ function fetchWeather() {
                         "uvi": dataWeather.daily[i].uvi,
                         "icon": dataWeather.daily[i].weather[0].icon,
                     }
-                //generateCards();
+                //writeCards();
             }
             console.log(fiveDayObj);
             console.log(cityArray);
@@ -218,15 +237,15 @@ function fetchPrevious() {
             for (i = 1; i < 6; i++) {
                 fiveDayObj[i] = 
                     {
-                        "humidity": dataWeather.daily[i].humidity,
-                        "temp": dataWeather.daily[i].temp.day,
                         "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
                         "weather": dataWeather.daily[i].weather[0].main,
+                        "icon": dataWeather.daily[i].weather[0].icon,
+                        "temp": dataWeather.daily[i].temp.day,
+                        "humidity": dataWeather.daily[i].humidity,
                         "wind": dataWeather.daily[i].wind_speed,
                         "uvi": dataWeather.daily[i].uvi,
-                        "icon": dataWeather.daily[i].weather[0].icon,
                     }
-                //generateCards();
+                //writeCards();
             }
             console.log(fiveDayObj);
         });
@@ -245,17 +264,17 @@ function fetchDefault() {
             for (i = 1; i < 6; i++) {
                 fiveDayObj[i] = 
                     {
-                        "humidity": dataWeather.daily[i].humidity,
-                        "temp": dataWeather.daily[i].temp.day,
                         "date": moment.unix(dataWeather.daily[i].dt).format("dddd, MMM Do, YYYY"),
                         "weather": dataWeather.daily[i].weather[0].main,
+                        "icon": dataWeather.daily[i].weather[0].icon,
+                        "temp": dataWeather.daily[i].temp.day,
+                        "humidity": dataWeather.daily[i].humidity,
                         "wind": dataWeather.daily[i].wind_speed,
                         "uvi": dataWeather.daily[i].uvi,
-                        "icon": dataWeather.daily[i].weather[0].icon,
                     }
-                //generateCards();
             }
             console.log(fiveDayObj);
+            writeCards();
         });
 }
 fetchDefault();
