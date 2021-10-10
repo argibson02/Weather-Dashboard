@@ -56,3 +56,5 @@ Any modern internet browser will do!
 
 - Thanks to Jerome, Manuel, Cheng, and Daniel for instructing the UCB Coding Bootcamp.
 - Thanks to Eric Meyer for the [CSS reset file](https://meyerweb.com/eric/tools/css/reset/).
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

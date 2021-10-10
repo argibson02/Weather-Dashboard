@@ -254,7 +254,7 @@ fetchDefault();
 function clearCities(event) {
     event.preventDefault();
     cityArray = clearArray; // sets javascript session array to blank
-    localStorage.setItem("cityArray", JSON.stringify(cityArray));  // pushes to local store
+    localStorage.setItem("cityArray", JSON.stringify(cityArray));  // pushes to local storage
     $("#newCitySearchField").val('');
     $("#newCityBtn").empty();
     $("#badNewCity").attr("style", "display:none"); // reset bad city alert
